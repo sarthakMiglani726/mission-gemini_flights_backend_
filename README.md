@@ -1,5 +1,17 @@
 # Gemini Flight Manager
 
+## Introduction
+
+Welcome to the Gemini Flights Management Assistant project! This repository contains the code for ReX, a flight management assistant powered by Google Gemini. ReX is designed to help users search and book flights interactively using natural language. The project leverages FastAPI for backend services, SQLAlchemy for database interactions, and Streamlit for the user interface. Additionally, it integrates with Vertex AI for advanced conversational capabilities.
+
+## Features
+
+Flight Search: Search for flights based on various criteria such as origin, destination, departure date, and more.
+Flight Booking: Book flights by specifying flight ID, seat type, and the number of seats.
+Interactive Chat Interface: Engage with ReX through a conversational interface powered by Google Gemini.
+Flight Management: Generate flight data for testing and development purposes.
+Logging and Error Handling: Comprehensive logging for debugging and robust error handling for smooth user experience.
+
 ## Overview
 
 Gemini Flight Manager is a comprehensive backend system built using FastAPI, designed for managing and simulating flight-related operations. This system provides a robust platform for handling various aspects of flight management, including flight generation, search, and booking functionalities.
