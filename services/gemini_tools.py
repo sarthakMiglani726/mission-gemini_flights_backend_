@@ -2,7 +2,7 @@ import vertexai
 import streamlit as st
 from vertexai.preview import generative_models
 from vertexai.preview.generative_models import GenerativeModel, Tool, Part, Content, ChatSession
-from flight_manager import search_flights
+from flight_manager import search_flights, book_flight
 
 project = "sample-gemini"
 vertexai.init(project = project)
@@ -82,12 +82,11 @@ model = GenerativeModel(
     generation_config = config
 )
 
-# helper function to unpack responses
+# Helper function to unpack responses
 def handle_response(response):
-    
     # Check for function call with intermediate step, always return response
-    if response.candidates[0].content.parts[0].function_call.args:
-        # Function call exists, unpack and load into a function
+    if response.candidates[0].content.parts[0].function_call:
+        function_name = response.candidates[0].content.parts[0].function_call.name
         response_args = response.candidates[0].content.parts[0].function_call.args
         
         function_params = {}
@@ -95,24 +94,35 @@ def handle_response(response):
             value = response_args[key]
             function_params[key] = value
         
-        results = search_flights(**function_params)
-        
-        if results:
-            intermediate_response = chat.send_message(
-                Part.from_function_response(
-                    name="get_search_flights",
-                    response = results
+        if function_name == "get_search_flights":
+            results = search_flights(**function_params)
+            if results:
+                intermediate_response = chat.send_message(
+                    Part.from_function_response(
+                        name="get_search_flights",
+                        response=results
+                    )
                 )
-            )
-            
-            return intermediate_response.candidates[0].content.parts[0].text
-        else:
-            return "Search Failed"
+                return intermediate_response.candidates[0].content.parts[0].text
+            else:
+                return "Search Failed"
+        elif function_name == "book_flight":
+            results = book_flight(**function_params)
+            if results:
+                intermediate_response = chat.send_message(
+                    Part.from_function_response(
+                        name="book_flight",
+                        response=results
+                    )
+                )
+                return intermediate_response.candidates[0].content.parts[0].text
+            else:
+                return "Booking Failed"
     else:
         # Return just text
         return response.candidates[0].content.parts[0].text
 
-# helper function to display and send streamlit messages
+# Helper function to display and send streamlit messages
 def llm_function(chat: ChatSession, query):
     response = chat.send_message(query)
     output = handle_response(response)
@@ -144,9 +154,9 @@ if "messages" not in st.session_state:
 # Display and load to chat history
 for index, message in enumerate(st.session_state.messages):
     content = Content(
-            role = message["role"],
-            parts = [ Part.from_text(message["content"]) ]
-        )
+        role=message["role"],
+        parts=[Part.from_text(message["content"])]
+    )
     
     if index != 0:
         with st.chat_message(message["role"]):
