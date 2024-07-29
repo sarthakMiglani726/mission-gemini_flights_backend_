@@ -285,3 +285,28 @@ def search_flights(**params):
 
     # Returning the JSON response
     return response.json()
+
+def book_flight(flight_id, seat_type, num_seats=1):
+    """
+    Sends a POST request to a FastAPI endpoint to book a flight.
+
+    Parameters:
+    - flight_id (int): The ID of the flight to book.
+    - seat_type (str): The type of seat to book (e.g., 'economy', 'business').
+    - num_seats (int): The number of seats to book (default is 1).
+
+    Returns:
+    The response from the FastAPI endpoint as a JSON object.
+    """
+    url = "http://127.0.0.1:8000/book_flight"
+    payload = {
+        "flight_id": flight_id,
+        "seat_type": seat_type,
+        "num_seats": num_seats
+    }
+
+    # Making the POST request
+    response = requests.post(url, json=payload, headers={'accept': 'application/json'})
+
+    # Returning the JSON response
+    return response.json()
