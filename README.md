@@ -6,11 +6,11 @@ Welcome to the Gemini Flights Management Assistant project! This repository cont
 
 ## Features
 
-Flight Search: Search for flights based on various criteria such as origin, destination, departure date, and more.
-Flight Booking: Book flights by specifying flight ID, seat type, and the number of seats.
-Interactive Chat Interface: Engage with ReX through a conversational interface powered by Google Gemini.
-Flight Management: Generate flight data for testing and development purposes.
-Logging and Error Handling: Comprehensive logging for debugging and robust error handling for smooth user experience.
+- Flight Search: Search for flights based on various criteria such as origin, destination, departure date, and more.
+- Flight Booking: Book flights by specifying flight ID, seat type, and the number of seats.
+- Interactive Chat Interface: Engage with ReX through a conversational interface powered by Google Gemini.
+- Flight Management: Generate flight data for testing and development purposes.
+- Logging and Error Handling: Comprehensive logging for debugging and robust error handling for smooth user experience.
 
 ## Overview
 
